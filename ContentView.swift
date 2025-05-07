@@ -7,6 +7,7 @@ struct ContentView: View {
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
             Text("Hello, world!")
+            is this visable on your end of github...
         }
     }
 }
