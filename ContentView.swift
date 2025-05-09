@@ -8,6 +8,7 @@ struct ContentView: View {
                 .foregroundColor(.accentColor)
             Text("Hello, world!")
             is this visable on your end of github...
+            Hello Can you see this?
         }
     }
 }
