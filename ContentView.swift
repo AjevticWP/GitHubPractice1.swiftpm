@@ -9,6 +9,8 @@ struct ContentView: View {
             Text("Hello, world!")
             is this visable on your end of github...
             Hello Can you see this?
+            Hello
+            Making sure this works
         }
     }
 }
