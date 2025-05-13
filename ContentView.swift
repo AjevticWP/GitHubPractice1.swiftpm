@@ -12,7 +12,7 @@ struct MyApp: App {
                     ContentView()
                         .transition(.opacity)
                 } else {
-                    Image(systemName: "sailboat")
+                    Image("DuraVita Logo")
                         .resizable()
                         .frame(width:200, height:200)
                         .transition(.scale(scale:2))
