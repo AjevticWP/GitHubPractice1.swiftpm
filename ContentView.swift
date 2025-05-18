@@ -31,30 +31,40 @@ struct MyApp: App {
 }
 import SwiftUI
 
+class FoodListData: ObservableObject {
+    @Published var dairyList: [String] = []
+    @Published var fruitList: [String] = []
+    @Published var meatList: [String] = []
+    @Published var condimentList: [String] = []
+}
+
+
 struct ContentView: View {
-    
-    @State private var enteredText = ""
+    @StateObject var foodData = FoodListData() // Create shared data
     
     var body: some View {
         NavigationView {
             VStack(spacing: 40) {
-                NavigationLink(destination: ScreenOne()) {
+                NavigationLink(destination: ScreenOne().environmentObject(foodData)) {
                     CircleButton(label: "Dairy")
                 }
-                NavigationLink(destination: ScreenTwo()) {
+                NavigationLink(destination: ScreenTwo().environmentObject(foodData)) {
                     CircleButton(label: "Fruit/Veggies")
                 }
-                NavigationLink(destination: ScreenThree()) {
+                NavigationLink(destination: ScreenThree().environmentObject(foodData)) {
                     CircleButton(label: "Meat")
                 }
-                NavigationLink(destination: ScreenFour()) {
+                NavigationLink(destination: ScreenFour().environmentObject(foodData)) {
                     CircleButton(label: "Condiments")
                 }
             }
             .navigationTitle("Select Food Group")
+            .font(.largeTitle)
+            .padding()
         }
     }
 }
+
 
 struct CircleButton: View {
     let label: String
@@ -62,9 +72,9 @@ struct CircleButton: View {
     var body: some View {
         Text(label)
             .font(.headline)
-            .foregroundColor(.white)
+            .foregroundColor(.green)
             .frame(width: 100, height: 100)
-            .background(Color.black)
+            .background(Color.blue)
             .clipShape(Circle())
     }
 }
@@ -72,69 +82,169 @@ struct CircleButton: View {
 // Differnet Screens
 
 struct ScreenOne: View {
+    @EnvironmentObject var foodData: FoodListData // Access shared data
+    @State private var enteredText = ""
+    
     var body: some View {
-        Text("Dairy List:")
-            .font(.largeTitle)
+        VStack(spacing: 20) {
+            Text("Dairy List:")
+                .font(.largeTitle)
+            
+            // Built-in items
+            Text("Milk - 7 Days In Counting")
+            Text("Slided Cheese - 10 Days In Counting")
+            Text("Yogurt - 11 Days In Counting")
+            
+            // User-added items
+            ForEach(foodData.dairyList, id: \.self) { item in
+                Text(item)
+            }
+            
+            TextField("Enter Dairy Product", text: $enteredText)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .frame(width: 250, height: 50)
+            
+            Button("Add to List") {
+                if !enteredText.isEmpty {
+                    foodData.dairyList.append(enteredText)
+                    enteredText = ""
+                }
+            }
             .padding()
-        Text("Milk - 7 Days In counting")
-            .padding()
-        Text("Slided Cheese - 10 Days In Counting")
-            .padding()
-        Text("Yogurt - 11 Days In Counting")
-            .padding()
-       TextField("Enter In Dairy Product", text: $enteredText)
-        //TextField() have user enter in half & half = 7 days
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .cornerRadius(8)
+            
+            Spacer()
+        }
+        .padding()
     }
 }
+
 
 struct ScreenTwo: View {
+    @EnvironmentObject var foodData: FoodListData
+    @State private var enteredText = ""
+    
     var body: some View {
-        Text("Fruit/Veggies List:")
-            .font(.largeTitle)
+        VStack(spacing: 20) {
+            Text("Fruit/Veggies List:")
+                .font(.largeTitle)
+            
+            Text("Strawberries - 4 Days In Counting")
+            Text("Carrots - 21 Days In Counting")
+            Text("Cucumbers - 7 Days In Counting")
+            
+            ForEach(foodData.fruitList, id: \.self) { item in
+                Text(item)
+            }
+            
+            TextField("Enter Fruit/Veggie Product", text: $enteredText)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .frame(width: 250)
+            
+            Button("Add to List") {
+                if !enteredText.isEmpty {
+                    foodData.fruitList.append(enteredText)
+                    enteredText = ""
+                }
+            }
             .padding()
-        Text("Strawberries - 4 Days In Counting")
-            .padding()
-        Text("Carrots - 21 Days In Counting")
-            .padding()
-        Text("Cucumbers - 7 Days In Counting")
-            .padding()
-        //TextField() have user enter in Apples = 28 days
+            .background(Color.green)
+            .foregroundColor(.white)
+            .cornerRadius(8)
+            
+            Spacer()
+        }
+        .padding()
     }
 }
+
 
 struct ScreenThree: View {
+    @EnvironmentObject var foodData: FoodListData
+    @State private var enteredText = ""
+    
     var body: some View {
-        Text("Meat List:")
-            .font(.largeTitle)
+        VStack(spacing: 20) {
+            Text("Meat List:")
+                .font(.largeTitle)
+            
+            Text("Ground Beef - 4 Days In Counting")
+            Text("Bacon - 7 Days In Counting")
+            Text("Deli Meat - 4 Days In Counting")
+            
+            ForEach(foodData.meatList, id: \.self) { item in
+                Text(item)
+            }
+            
+            TextField("Enter Meat Product", text: $enteredText)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .frame(width: 250)
+            
+            Button("Add to List") {
+                if !enteredText.isEmpty {
+                    foodData.meatList.append(enteredText)
+                    enteredText = ""
+                }
+            }
             .padding()
-        Text("Ground Beef - 4 Days In Counting")
-            .padding()
-        Text("Bacon - 7 Days I Counting")
-            .padding()
-        Text("Deli Meat - 4 Days In Counting")
-            .padding()
-        // TextField () have user enter in cooked chicken = 4 days
+            .background(Color.red)
+            .foregroundColor(.white)
+            .cornerRadius(8)
+            
+            Spacer()
+        }
+        .padding()
     }
 }
 
+
 struct ScreenFour: View {
+    @EnvironmentObject var foodData: FoodListData
+    @State private var enteredText = ""
+    
     var body: some View {
-        Text("Condiments List:")
-            .font(.largeTitle)
-        Text("Ketchup - 180 Days In Counting")
+        VStack(spacing: 20) {
+            Text("Condiments List:")
+                .font(.largeTitle)
+            
+            Text("Ketchup - 180 Days In Counting")
+            Text("Mustard - 360 Days In Counting")
+            Text("Pesto - 7 Days In Counting")
+            
+            ForEach(foodData.condimentList, id: \.self) { item in
+                Text(item)
+            }
+            
+            TextField("Enter Condiment Product", text: $enteredText)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .frame(width: 250)
+            
+            Button("Add to List") {
+                if !enteredText.isEmpty {
+                    foodData.condimentList.append(enteredText)
+                    enteredText = ""
+                }
+            }
             .padding()
-        Text("Mustard - 360 Days In Counting")
-            .padding()
-        Text("Pesto - 7 Days In Counting")
-            .padding()
-        // Text Field () Have user enter int Jam = 180 Days 
+            .background(Color.orange)
+            .foregroundColor(.white)
+            .cornerRadius(8)
+            
+            Spacer()
+        }
+        .padding()
     }
 }
+
 
 // Preview for content view
 
 #Preview {
     ContentView()
 }
+
+
 
 
