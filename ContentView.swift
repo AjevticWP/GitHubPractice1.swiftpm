@@ -1,36 +1,5 @@
 import SwiftUI
 
-@main
-struct MyApp: App {
-    
-    @State private var showApp = false
-    
-    var body: some Scene {
-        WindowGroup {
-            ZStack{
-                if showApp {
-                    ContentView()
-                        .transition(.opacity)
-                } else {
-                    Image("DuraVita Logo")
-                        .resizable()
-                        .frame(width:200, height:200)
-                        .transition(.scale(scale:2))
-                }
-            }
-            .animation(.easeInOut(duration:0.5), value: showApp)
-            .onAppear() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    withAnimation {
-                        showApp = true
-                    }
-                }
-            }
-        }
-    }
-}
-import SwiftUI
-
 class FoodListData: ObservableObject {
     @Published var dairyList: [String] = []
     @Published var fruitList: [String] = []
@@ -38,7 +7,7 @@ class FoodListData: ObservableObject {
     @Published var condimentList: [String] = []
     
 }
-struct NavigationView: View {
+struct ContentView: View {
     @StateObject var foodData = FoodListData()  
     
     var body: some View {
@@ -53,9 +22,7 @@ struct NavigationView: View {
                         .monospaced()
                       
                         .fontWeight(.light)
-                    Text("""  Created By: Anastasija Jevtic, Tharikka Ravi, & Adnana Camacho """)
-                        .multilineTextAlignment(.center)
-
+                    Text("Created By: Anastasija Jevtic, Tharikka Ravi,             & Adnana Camacho")
                         
                     
                     NavigationLink(destination: ScreenOne().environmentObject(foodData)) {
@@ -98,7 +65,7 @@ struct NavigationView: View {
         
         var body: some View {
             ZStack{
-                Color.mint.ignoresSafeArea()
+                Color.teal.ignoresSafeArea()
                 VStack(spacing: 20) {
                     Text("Dairy List:")
                         .font(.largeTitle)
@@ -142,7 +109,7 @@ struct NavigationView: View {
         
         var body: some View {
             ZStack{
-                Color.mint.ignoresSafeArea()
+                Color.teal.ignoresSafeArea()
                 VStack(spacing: 20) {
                     
                     Text("Fruit/Veggies List:")
@@ -191,7 +158,7 @@ struct NavigationView: View {
         
         var body: some View {
             ZStack{
-                Color.mint.ignoresSafeArea()
+                Color.teal.ignoresSafeArea()
                 VStack(spacing: 20) {
                     Text("Meat List:")
                         .font(.largeTitle)
@@ -240,7 +207,7 @@ struct NavigationView: View {
         
         var body: some View {
             ZStack{
-                Color.mint.ignoresSafeArea()
+                Color.teal.ignoresSafeArea()
                 VStack(spacing: 20) {
                     Text("Condiments List:")
                         .font(.largeTitle)
@@ -284,5 +251,4 @@ struct NavigationView: View {
         }
     }
 }
-
 
