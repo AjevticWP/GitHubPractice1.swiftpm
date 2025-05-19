@@ -38,7 +38,7 @@ class FoodListData: ObservableObject {
     @Published var condimentList: [String] = []
     
 }
-struct ContentView: View {
+struct NavigationView: View {
     @StateObject var foodData = FoodListData()  
     
     var body: some View {
@@ -53,7 +53,9 @@ struct ContentView: View {
                         .monospaced()
                       
                         .fontWeight(.light)
-                    Text("Created By: Anastasija Jevtic, Tharikka Ravi,             & Adnana Camacho")
+                    Text("""  Created By: Anastasija Jevtic, Tharikka Ravi, & Adnana Camacho """)
+                        .multilineTextAlignment(.center)
+
                         
                     
                     NavigationLink(destination: ScreenOne().environmentObject(foodData)) {
